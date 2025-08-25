@@ -1,0 +1,9 @@
+.kiro
+.github
+.oxlintrc.json
+.prettierignore
+.prettierrc.json
+.prototools
+.vscode
+*.tgz
+dist

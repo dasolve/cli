@@ -1,0 +1,54 @@
+{
+  "name": "dasolve",
+  "version": "0.0.1-alpha.7",
+  "description": "CLI for managing Dasolve projects",
+  "readme": "README.md",
+  "license": "FSL-1.1-ALv2",
+  "main": "src/cli.ts",
+  "homepage": "https://github.com/dasolve/cli",
+  "bin": {
+    "dasolve": "src/cli.ts"
+  },
+  "author": {
+    "name": "Dasolve AS",
+    "url": "https://dasolve.com"
+  },
+  "keywords": [
+    "dasolve",
+    "cli",
+    "framework"
+  ],
+  "bugs": {
+    "url": "https://github.com/dasolve/cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dasolve/cli.git"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "scripts": {
+    "cli": "bun run src/cli.ts",
+    "lint": "oxlint .",
+    "typecheck": "tsc --build"
+  },
+  "type": "module",
+  "dependencies": {
+    "@commander-js/extra-typings": "13.1.0",
+    "inquirer": "12.6.0",
+    "mustache": "4.2.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/mustache": "4.2.6",
+    "conventional-changelog": "7.1.1",
+    "conventional-changelog-angular": "8.0.0",
+    "oxlint": "1.1.0",
+    "prettier": "3.5.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

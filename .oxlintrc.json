@@ -1,0 +1,13 @@
+{
+  "categories": {
+    "correctness": "error",
+    "pedantic": "error",
+    "perf": "error"
+    // "style": "error"
+  },
+  "rules": {
+    "max-lines-per-function": "off",
+    "max-nested-callbacks": "off",
+    "max-depth": "off"
+  }
+}
