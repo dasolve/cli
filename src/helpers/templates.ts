@@ -16,7 +16,7 @@ export async function copyTemplate(
 ) {
   await $`rm -rf ${destinationPath}/*`.nothrow().quiet();
   await $`rm -rf ${destinationPath}/.*`.nothrow().quiet();
-  await $`cp -r ${templatePath(templateName)}/* ${destinationPath}`;
+  await $`cp -r ${templatePath(templateName)}/. ${destinationPath}/`;
 }
 
 export async function renderTemplate(
@@ -25,7 +25,7 @@ export async function renderTemplate(
 ) {
   logDebug("Rendering template files with variables", templateVariables);
   const glob = new Glob("**/*.mustache");
-  for await (const file of glob.scan(destinationPath)) {
+  for await (const file of glob.scan({ cwd: destinationPath, dot: true })) {
     const fullPath = path.join(destinationPath, file);
     logDebug("Rendering template file", fullPath);
     const fileToRender = Bun.file(fullPath);
