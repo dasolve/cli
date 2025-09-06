@@ -180,5 +180,6 @@
   "typescript.tsc.autoDetect": "off",
   "typescript.tsserver.nodePath": "node",
   "eslint.nodePath": "node",
-  "telemetry.feedback.enabled": false
+  "telemetry.feedback.enabled": false,
+  "git.blame.editorDecoration.enabled": true
 }
