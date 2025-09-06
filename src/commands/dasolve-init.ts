@@ -15,15 +15,12 @@ new Command("init")
     const targetDir = process.cwd();
     try {
       // Get default project name from git if available
-      let defaultProjectName;
-      try {
-        defaultProjectName = (await $`git rev-parse --show-toplevel`.text())
-          .split("/")
-          .at(-1)
-          ?.trim();
-      } catch {
-        defaultProjectName = path.basename(process.cwd());
-      }
+      const defaultProjectName = Bun.which("git")
+        ? (await $`git rev-parse --show-toplevel`.text())
+            .split("/")
+            .at(-1)
+            ?.trim()
+        : path.basename(process.cwd());
 
       const emptyFolder = fs.readdirSync(targetDir).length === 0;
 
