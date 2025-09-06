@@ -1,28 +1,25 @@
 import { Command } from "@commander-js/extra-typings";
-import { $ } from "bun";
 import inquirer from "inquirer";
-import path from "path";
 import fs from "fs";
 import {
   copyTemplate,
   fetchTemplates,
   renderTemplate,
 } from "../helpers/templates";
+import logDebug from "../helpers/logDebug";
+import { getParentFolderName } from "../helpers/getParentFolderName";
 
 new Command("init")
   .description("Initialize a new Dasolve project")
   .action(async () => {
     const targetDir = process.cwd();
+    logDebug("Target directory:", targetDir);
     try {
       // Get default project name from git if available
-      const defaultProjectName = Bun.which("git")
-        ? (await $`git rev-parse --show-toplevel`.text())
-            .split("/")
-            .at(-1)
-            ?.trim()
-        : path.basename(process.cwd());
+      const defaultProjectName = await getParentFolderName();
 
       const emptyFolder = fs.readdirSync(targetDir).length === 0;
+      logDebug("Is target directory empty?", emptyFolder);
 
       // Collect project information
       const answers = await inquirer.prompt([

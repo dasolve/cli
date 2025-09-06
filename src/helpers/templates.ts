@@ -1,14 +1,11 @@
 import { $, Glob } from "bun";
 import path from "node:path";
-import { internalPath, paths } from "./paths";
+import { paths } from "./paths";
 import mustache from "mustache";
 import logDebug from "./logDebug";
+import { existsSync } from "node:fs";
 
 type TemplateName = "init";
-
-function templatePath(templateName: TemplateName) {
-  return internalPath("templates", templateName);
-}
 
 export async function copyTemplate(
   templateName: TemplateName,
@@ -16,7 +13,7 @@ export async function copyTemplate(
 ) {
   await $`rm -rf ${destinationPath}/*`.nothrow().quiet();
   await $`rm -rf ${destinationPath}/.*`.nothrow().quiet();
-  await $`cp -r ${templatePath(templateName)}/. ${destinationPath}/`;
+  await $`cp -r ${paths.template(templateName)}/. ${destinationPath}/`;
 }
 
 export async function renderTemplate(
@@ -41,39 +38,40 @@ export async function renderTemplate(
   }
 }
 
-async function cleanTemplateFiles(onlyCache = true) {
-  logDebug("Cleaning up template files");
-  const templatesZipPath = internalPath(paths.cacheFolder, "templates.zip");
-  const templatesUnzippedFolder = internalPath(
-    paths.cacheFolder,
-    "templates-main"
+async function cleanTemplateFiles() {
+  const templatesZipPath = paths.templatesZipFile;
+  logDebug("Check Cleaning up template zip file", templatesZipPath);
+  if (existsSync(templatesZipPath)) {
+    logDebug("Cleaning up template files", templatesZipPath);
+    await $`rm -f ${templatesZipPath}`.nothrow().quiet();
+  }
+  const templatesUnzippedFolder = paths.templatesUnzippedFolder;
+  logDebug(
+    "Check Cleaning up template unzipped folder",
+    templatesUnzippedFolder
   );
-  const templatesFile = Bun.file(templatesZipPath);
-  (await templatesFile.exists()) && (await templatesFile.delete());
-  await $`rm -rf ${templatesUnzippedFolder}`;
+  if (existsSync(templatesUnzippedFolder)) {
+    logDebug("Cleaning up template unzipped folder", templatesUnzippedFolder);
+    await $`rm -rf ${templatesUnzippedFolder}`.nothrow().quiet();
+  }
   logDebug("Cache template files cleaned up");
-  if (onlyCache) return;
-  await $`rm -rf *`.cwd(paths.templatesFolder);
-  logDebug("Templates folder cleaned up");
 }
 
 export async function fetchTemplates() {
-  await cleanTemplateFiles(false);
-
   console.log("Fetching templates from GitHub...");
-  const templatesZipPath = internalPath(paths.cacheFolder, "templates.zip");
+
+  await cleanTemplateFiles();
+  const templatesZipPath = paths.templatesZipFile;
   const templatesFile = Bun.file(templatesZipPath);
+  logDebug("Downloading templates from", paths.templatesRemoteArchive);
   const response = await fetch(paths.templatesRemoteArchive);
   if (!response.ok) throw new Error("Failed to download template from GitHub");
   await Bun.write(templatesFile, response);
-  logDebug("Templates Downloaded");
+  logDebug("Templates downloaded to", templatesZipPath);
 
-  logDebug("Unpacking Templates");
+  if (!Bun.which("unzip"))
+    throw new Error("Unzip command not found. Please install unzip.");
+  logDebug("Unpacking Templates to", paths.templatesUnzippedFolder);
   await $`unzip -q ${templatesZipPath}`.cwd(paths.cacheFolder);
-  logDebug("Templates Unpacked");
-
-  logDebug("Saving Templates");
-  await $`mv templates-main/* ${paths.templatesFolder}`.cwd(paths.cacheFolder);
-  logDebug("Templates Saved");
-  await cleanTemplateFiles(true);
+  logDebug("Templates Unpacked to", paths.templatesUnzippedFolder);
 }

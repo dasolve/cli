@@ -15,7 +15,9 @@ export const paths = {
   templatesRemoteArchive:
     "https://github.com/dasolve/templates/archive/refs/heads/main.zip",
   cacheFolder: internalPath("cache"),
-  templatesFolder: internalPath("templates"),
+  templatesZipFile: internalPath("cache", "templates.zip"),
+  templatesUnzippedFolder: internalPath("cache", "templates-main"),
+  template: (name: string) => internalPath("cache", "templates-main", name),
 } as const;
 
 logDebug("Paths:", paths);
