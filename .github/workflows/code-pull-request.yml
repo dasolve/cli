@@ -40,7 +40,7 @@ jobs:
           bun run typecheck
       - name: Save Bun Cache
         uses: actions/cache/save@v4
-        if: steps.validate.outcome == 'success'
+        if: steps.validate.outcome == 'success' && steps.restore-bun-cache.outputs.cache-hit != 'true'
         with:
           path: /home/runner/.bun/install/cache
           key: ${{ steps.restore-bun-cache.outputs.cache-primary-key }}
