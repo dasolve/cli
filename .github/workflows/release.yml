@@ -127,5 +127,6 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: release
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ steps.generate_token.outputs.token }}
+          npm-token: ${{ secrets.GITHUB_TOKEN }}
           branch: release
