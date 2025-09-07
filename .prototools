@@ -1,5 +1,7 @@
 bun = "1.2.21"
 moon = "1.39.4"
+npm = "11.6.0"
+node = "lts"
 
 [settings]
 auto-install = true
