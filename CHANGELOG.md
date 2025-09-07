@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0](https://github.com/dasolve/cli/compare/v0.0.1-alpha.8...v0.1.0) (2025-09-07)
+
+### Features
+
+* add 'clean' command to remove CLI temp files ([#2](https://github.com/dasolve/cli/issues/2)) ([a34c12a](https://github.com/dasolve/cli/commit/a34c12acfbe561cedec2442fa0f0993d32ae169f))
+
 ## 0.0.1-alpha.8 (2025-09-07)
 
 ### Bug Fixes
