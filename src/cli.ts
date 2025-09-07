@@ -2,11 +2,15 @@
 import { program } from "@commander-js/extra-typings";
 import packageJson from "../package.json";
 import { createPathIfNotExists, paths } from "./helpers/paths";
+import { semver } from "bun";
 
 if (typeof Bun === "undefined")
   throw new Error(
     "You need to run `dasolve` with Bun. Do `bunx dasolve [command]`"
   );
+
+if (!semver.satisfies(Bun.version, ">=1.2.21"))
+  throw new Error("You need to update Bun to version 1.2.21 or higher");
 
 createPathIfNotExists(paths.cacheFolder);
 
