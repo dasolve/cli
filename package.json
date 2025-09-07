@@ -1,6 +1,6 @@
 {
   "name": "dasolve",
-  "version": "0.0.1-alpha.7",
+  "version": "0.0.1-alpha.8",
   "description": "CLI for managing Dasolve projects",
   "readme": "README.md",
   "license": "FSL-1.1-ALv2",
