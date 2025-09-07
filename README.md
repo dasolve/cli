@@ -67,6 +67,19 @@ dasolve init
 - Applies templates with variable substitution
 - Sets up your project structure with best practices
 
+### `dasolve clean`
+
+Clean the CLI temp files (removes the internal cache/temp directory used by Dasolve).
+
+```bash
+dasolve clean
+```
+
+**What it does:**
+
+- Deletes the internal temp/cache directory used by Dasolve
+- Useful for troubleshooting or freeing up disk space
+
 ### `dasolve upgrade`
 
 Upgrade the Dasolve CLI to the latest version.
@@ -83,54 +96,9 @@ dasolve upgrade
 
 ## 🛠️ Development
 
-### Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/dasolve/cli.git
-cd cli
-
-# Install dependencies
-bun install
-
-# Run locally
-bun run cli
-```
-
-### Scripts
-
-```bash
-# Run the CLI locally
-bun run cli
-
-# Run linting
-bun run lint
-
-# Type checking
-bun run typecheck
-```
-
-### Project Structure
-
-```
-src/
-├── cli.ts                 # Main CLI entry point
-└── commands/
-    ├── dasolve-init.ts    # Project initialization command
-    └── dasolve-upgrade.ts # CLI upgrade command
-```
-
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run `bun run lint` and `bun run typecheck`
-5. Submit a pull request
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for development setup, workflow, and project structure.
 
 ## 📄 License
 
