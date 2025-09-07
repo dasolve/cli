@@ -17,10 +17,12 @@ permissions:
   pull-requests: write
 
 jobs:
-  token:
+  check:
     runs-on: ubuntu-latest
+    name: Context check
     outputs:
-      token: ${{ steps.generate_token.outputs.token }}
+      continue: ${{ steps.check.outputs.continue }}
+      workflow: ${{ steps.check.outputs.workflow }}
     steps:
       - name: Generate token
         id: generate_token
@@ -28,18 +30,10 @@ jobs:
         with:
           app-id: ${{ secrets.GH_APP_APP_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-  check:
-    runs-on: ubuntu-latest
-    name: Context check
-    needs: token
-    outputs:
-      continue: ${{ steps.check.outputs.continue }}
-      workflow: ${{ steps.check.outputs.workflow }}
-    steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ needs.token.outputs.token }}
+          token: ${{ steps.generate_token.outputs.token }}
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -63,13 +57,19 @@ jobs:
   pull-request:
     runs-on: ubuntu-latest
     name: Pull request
-    needs: [check, token]
+    needs: check
     if: needs.check.outputs.workflow == 'pull-request'
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ needs.token.outputs.token }}
+          token: ${{ steps.generate_token.outputs.token }}
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -87,18 +87,24 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: pull-request
-          github-token: ${{ needs.token.outputs.token }}
+          github-token: ${{ steps.generate_token.outputs.token }}
           branch: release
   release:
     runs-on: ubuntu-latest
     name: Release
-    needs: [check, token]
+    needs: check
     if: needs.check.outputs.workflow == 'release'
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ needs.token.outputs.token }}
+          token: ${{ steps.generate_token.outputs.token }}
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -121,5 +127,5 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: release
-          github-token: ${{ needs.token.outputs.token }}
+          github-token: ${{ steps.generate_token.outputs.token }}
           branch: release
