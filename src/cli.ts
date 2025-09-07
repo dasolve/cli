@@ -21,4 +21,5 @@ program
   .executableDir("commands")
   .command("init", "Initialize a new Dasolve project")
   .command("upgrade", "Upgrade the CLI")
+  .command("clean", "Clean the CLI temp files")
   .parse();
