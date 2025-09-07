@@ -7,3 +7,8 @@
 .vscode
 *.tgz
 dist
+.commitlintrc.json
+.czrc
+.simple-release.js
+bunfig.toml
+bun.lock
