@@ -32,21 +32,26 @@
   "scripts": {
     "cli": "bun run src/cli.ts",
     "lint": "oxlint .",
-    "typecheck": "tsc --build"
+    "typecheck": "tsc --build",
+    "commit": "cz"
   },
   "type": "module",
   "dependencies": {
-    "@commander-js/extra-typings": "13.1.0",
-    "inquirer": "12.6.0",
+    "@commander-js/extra-typings": "14.0.0",
+    "inquirer": "12.9.4",
     "mustache": "4.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/cz-commitlint": "19.8.1",
     "@types/bun": "latest",
     "@types/mustache": "4.2.6",
+    "commitizen": "4.3.1",
     "conventional-changelog": "7.1.1",
     "conventional-changelog-angular": "8.0.0",
-    "oxlint": "1.1.0",
-    "prettier": "3.5.3"
+    "oxlint": "1.14.0",
+    "prettier": "3.6.2"
   },
   "peerDependencies": {
     "typescript": "^5"

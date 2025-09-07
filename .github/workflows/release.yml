@@ -1,9 +1,11 @@
 name: Release
 
 on:
+  issue_comment:
+    types: [created, deleted]
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -14,8 +16,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    name: Context check
+    outputs:
+      continue: ${{ steps.check.outputs.continue }}
+      workflow: ${{ steps.check.outputs.workflow }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Context check
+        id: check
+        uses: TrigenSoftware/simple-release-action@v1
+        with:
+          workflow: check
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release
+  pull-request:
+    runs-on: ubuntu-latest
+    name: Pull request
+    needs: check
+    if: needs.check.outputs.workflow == 'pull-request'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Create or update pull request
+        uses: TrigenSoftware/simple-release-action@v1
+        with:
+          workflow: pull-request
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release
   release:
     runs-on: ubuntu-latest
+    name: Release
+    needs: check
+    if: needs.check.outputs.workflow == 'release'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,18 +72,9 @@ jobs:
         run: |
           bun run lint
           bun run typecheck
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: TrigenSoftware/simple-release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.version.outputs.VERSION }}
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: ${{ contains(steps.version.outputs.VERSION, 'alpha') || contains(steps.version.outputs.VERSION, 'beta') || contains(steps.version.outputs.VERSION, 'rc') }}
-      - name: Publish to NPM
-        run: npm publish
+          workflow: release
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release

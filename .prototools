@@ -1,6 +1,5 @@
-bun = "1.2.20"
+bun = "1.2.21"
 moon = "1.39.4"
-npm = "11.5.2"
 
 [settings]
 auto-install = true
