@@ -52,7 +52,7 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: check
-          github-token: ${{ needs.token.outputs.token }}
+          github-token: ${{ steps.generate_token.outputs.token }}
           branch: release
   pull-request:
     runs-on: ubuntu-latest
