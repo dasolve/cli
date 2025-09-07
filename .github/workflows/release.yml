@@ -14,17 +14,32 @@ concurrency:
 permissions:
   contents: write
   id-token: write
+  pull-requests: write
 
 jobs:
+  token:
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.generate_token.outputs.token }}
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
   check:
     runs-on: ubuntu-latest
     name: Context check
+    needs: token
     outputs:
       continue: ${{ steps.check.outputs.continue }}
       workflow: ${{ steps.check.outputs.workflow }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ needs.token.outputs.token }}
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -43,16 +58,18 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: check
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ needs.token.outputs.token }}
           branch: release
   pull-request:
     runs-on: ubuntu-latest
     name: Pull request
-    needs: check
+    needs: [check, token]
     if: needs.check.outputs.workflow == 'pull-request'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ needs.token.outputs.token }}
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -70,16 +87,18 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: pull-request
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ needs.token.outputs.token }}
           branch: release
   release:
     runs-on: ubuntu-latest
     name: Release
-    needs: check
+    needs: [check, token]
     if: needs.check.outputs.workflow == 'release'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ needs.token.outputs.token }}
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
@@ -102,5 +121,5 @@ jobs:
         uses: TrigenSoftware/simple-release-action@v1
         with:
           workflow: release
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ needs.token.outputs.token }}
           branch: release
