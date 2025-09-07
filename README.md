@@ -94,9 +94,7 @@ dasolve upgrade
 - Uses Bun's package manager for fast, reliable updates
 - Ensures you have access to the newest features and bug fixes
 
-## 🛠️ Development
-
-## 🤝 Contributing
+## 🤝 Contributing to the project
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for development setup, workflow, and project structure.
 
