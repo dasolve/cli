@@ -2,7 +2,7 @@ name: Validate
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened]
     branches:
       - main
 
@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
       - name: Validate commit messages
-        run: bun run commitlint --from=HEAD~1
+        run: echo "${{ github.event.pull_request.title }}" | bun run commitlint
       - name: Validate
         id: validate
         run: |
