@@ -128,7 +128,6 @@ jobs:
         with:
           workflow: release
           github-token: ${{ steps.generate_token.outputs.token }}
-          npm-token: ${{ secrets.GITHUB_TOKEN }}
           branch: release
       - name: Save Bun Cache
         uses: actions/cache/save@v4
