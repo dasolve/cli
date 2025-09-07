@@ -5,7 +5,7 @@
 🚀 **The CLI for managing Dasolve projects**
 
 [![License: FSL-1.1-ALv2](https://img.shields.io/badge/License-FSL--1.1--ALv2-blue.svg)](LICENSE)
-[![Validate](https://github.com/dasolve/cli/actions/workflows/validate.yml/badge.svg)](https://github.com/dasolve/cli/actions/workflows/validate.yml)
+[![Release](https://github.com/dasolve/cli/actions/workflows/release.yml/badge.svg)](https://github.com/dasolve/cli/actions/workflows/release.yml)
 [![npm version](https://badge.fury.io/js/dasolve.svg)](https://www.npmjs.com/package/dasolve)
 
 </div>
