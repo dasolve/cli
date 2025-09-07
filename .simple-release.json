@@ -1,3 +1,11 @@
 {
-  "project": ["@simple-release/npm"]
+  "project": [
+    "@simple-release/pnpm#PnpmWorkspacesProject",
+    {
+      "mode": "fixed"
+    }
+  ],
+  "bump": {
+    "extraScopes": ["deps"]
+  }
 }
