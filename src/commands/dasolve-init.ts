@@ -8,6 +8,7 @@ import {
 } from "../helpers/templates";
 import logDebug from "../helpers/logDebug";
 import { getParentFolderName } from "../helpers/getParentFolderName";
+import { installToolchain } from "../helpers/proto";
 
 new Command("init")
   .description("Initialize a new Dasolve project")
@@ -48,13 +49,13 @@ new Command("init")
       ]);
 
       if (!answers.delete && !emptyFolder) {
-        console.error("Aborting project initialization.");
+        console.error("⏸️ Aborting project initialization.");
         process.exit(1);
       }
 
       await fetchTemplates();
 
-      console.log(`Creating new Dasolve project in ${targetDir}`);
+      console.log(`🔧 Creating new Dasolve project in ${targetDir}`);
 
       // Create variables for template substitution
       const templateVars = {
@@ -68,9 +69,13 @@ new Command("init")
       await copyTemplate("init", targetDir);
       await renderTemplate(targetDir, templateVars);
 
+      console.log("🧰 Installing tools...");
+
+      await installToolchain();
+
       console.log("🎉 Dasolve project initialized successfully!");
     } catch (error) {
-      console.error("Error initializing project:", error.message);
+      console.error("❌ Error initializing project:", error.message);
       process.exit(1);
     }
   })
