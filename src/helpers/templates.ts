@@ -58,7 +58,7 @@ async function cleanTemplateFiles() {
 }
 
 export async function fetchTemplates() {
-  console.log("Fetching templates from GitHub...");
+  console.log("📥 Fetching templates from GitHub...");
 
   await cleanTemplateFiles();
   const templatesZipPath = paths.templatesZipFile;

@@ -7,6 +7,6 @@ new Command("clean")
   .action(async () => {
     const destinationPath = internalPath();
     await $`rm -rf ${destinationPath}`.nothrow().quiet();
-    console.log(`${destinationPath} cleaned up`);
+    console.log(`🧹 ${destinationPath} cleaned up`);
   })
   .parse();
