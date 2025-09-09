@@ -20,10 +20,11 @@ export const paths = {
   template: (name: string) => internalPath("cache", "templates-main", name),
 } as const;
 
-logDebug("Paths:", paths);
-
 export function createPathIfNotExists(path: string) {
-  if (existsSync(path)) return;
+  if (existsSync(path)) {
+    logDebug("Path already exists:", path);
+    return;
+  }
   logDebug("Creating path:", path);
   mkdirSync(path, { recursive: true });
 }
