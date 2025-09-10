@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/dasolve/cli/compare/v0.1.0...v0.2.0) (2025-09-10)
+
+### Features
+
+* add installGit function to check and install Git if missing ([76b1662](https://github.com/dasolve/cli/commit/76b1662997fd38f403d1f11aab3f05845afeb5da))
+* enhance console messages with emojis for better visibility ([b3513de](https://github.com/dasolve/cli/commit/b3513de0559a3ea19bb3563cfc9eaf88a1308345))
+* **init:** add toolchain installation during project initialization ([81421af](https://github.com/dasolve/cli/commit/81421afe63307c37a7a05111f208d1efdb48ae11))
+
+### Bug Fixes
+
+* **init:** correct paths and expansion ([1e05baa](https://github.com/dasolve/cli/commit/1e05baaeae316fc2efd241476dfb83c82487540f))
+
+### Performance Improvements
+
+* add blame info to editor ([8155991](https://github.com/dasolve/cli/commit/815599104f12060adf301ed90060417a7eb7a88c))
+
 ## [0.1.0](https://github.com/dasolve/cli/compare/v0.0.1-alpha.8...v0.1.0) (2025-09-07)
 
 ### Features
